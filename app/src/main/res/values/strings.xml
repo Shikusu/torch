@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Torch</string>
+    <string name="app_name">Torche</string>
+    <string name="screen_glow">Lumière de l\'écran</string>
+    <string name="_100">100%</string>
+    <string name="signal">SIGNAL</string>
+    <string name="sos">SOS</string>
+    <string name="primary_beam">Flash</string>
 </resources>

@@ -1,10 +1,478 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+
+    android:id="@+id/rootLayout"
+
     android:layout_width="match_parent"
+
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+
+    android:background="#000000"
+
+    android:fitsSystemWindows="true">
+
+
+    <androidx.cardview.widget.CardView
+
+        android:id="@+id/selectorPanel"
+
+        android:layout_width="0dp"
+
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="32dp"
+
+        android:layout_marginTop="56dp"
+
+        android:layout_marginEnd="32dp"
+
+        app:cardBackgroundColor="#1AFFFFFF"
+
+        app:cardCornerRadius="50dp"
+
+        app:cardElevation="0dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <FrameLayout
+
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent"
+
+            android:background="@drawable/stroke_glass_pill" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+
+            android:layout_width="match_parent"
+
+            android:layout_height="72dp">
+
+
+            <View
+                android:id="@+id/selectorHighlight"
+
+                android:layout_width="0dp"
+
+                android:layout_height="52dp"
+
+                android:background="@drawable/bg_selector_highlight"
+
+                android:elevation="2dp"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                app:layout_constraintEnd_toEndOf="@id/btnBack"
+
+                app:layout_constraintStart_toStartOf="@id/btnBack"
+
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/btnBack"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:drawablePadding="2dp"
+                android:fontFamily="@font/roboto_flex"
+                android:gravity="center"
+                android:letterSpacing="0.08"
+                android:paddingTop="12dp"
+                android:paddingBottom="8dp"
+                android:text="@string/primary_beam"
+                android:textColor="#90FFFFFF"
+                android:textSize="11sp"
+                app:drawableTint="#00E5FF"
+                app:drawableTopCompat="@drawable/ic_camera_rear"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/selectorDivider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="VisualLintOverlap" />
+            <View
+
+                android:id="@+id/selectorDivider"
+
+                android:layout_width="1dp"
+
+                android:layout_height="32dp"
+
+                android:background="#33FFFFFF"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                app:layout_constraintEnd_toStartOf="@id/btnFront"
+
+                app:layout_constraintStart_toEndOf="@id/btnBack"
+
+                app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/btnFront"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:drawablePadding="2dp"
+                android:fontFamily="@font/roboto_flex"
+                android:gravity="center"
+                android:letterSpacing="0.08"
+                android:paddingTop="12dp"
+                android:paddingBottom="8dp"
+                android:text="@string/screen_glow"
+                android:textColor="#80FFFFFF"
+                android:textSize="11sp"
+                app:drawableTint="#80FFFFFF"
+                app:drawableTopCompat="@drawable/ic_camera_front"
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintStart_toEndOf="@id/selectorDivider"
+
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <FrameLayout
+
+        android:id="@+id/dialContainer"
+
+        android:layout_width="220dp"
+
+        android:layout_height="220dp"
+
+        android:layout_marginTop="32dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@id/selectorPanel">
+
+
+        <View
+
+            android:id="@+id/dialGlowRing"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent"
+
+            android:alpha="0"
+
+            android:background="@drawable/bg_dial_glow_ring"
+
+            android:scaleX="1.0"
+
+            android:scaleY="1.0" />
+
+
+        <FrameLayout
+
+            android:id="@+id/masterDial"
+
+            android:layout_width="200dp"
+
+            android:layout_height="200dp"
+
+            android:layout_gravity="center"
+
+            android:background="@drawable/bg_dial_off"
+
+            android:clickable="true"
+
+            android:focusable="true"
+
+            android:hapticFeedbackEnabled="true"
+
+            android:stateListAnimator="@animator/dial_press_animator"
+            tools:ignore="SpeakableTextPresentCheck">
+
+
+            <View
+
+                android:layout_width="160dp"
+
+                android:layout_height="160dp"
+
+                android:layout_gravity="center"
+
+                android:alpha="0.15"
+
+                android:background="@drawable/ring_detail_inner" />
+
+
+            <View
+
+                android:layout_width="120dp"
+
+                android:layout_height="120dp"
+
+                android:layout_gravity="center"
+
+                android:alpha="0.08"
+
+                android:background="@drawable/ring_detail_inner" />
+
+            <ImageView
+                android:id="@+id/powerIcon"
+
+                android:layout_width="56dp"
+
+                android:layout_height="56dp"
+
+                android:layout_gravity="center"
+
+                android:src="@drawable/ic_power"
+                app:tint="#80B0B0B0"
+                tools:ignore="ContentDescription" />
+
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+    <androidx.cardview.widget.CardView
+
+        android:id="@+id/footerPanel"
+
+        android:layout_width="0dp"
+
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="24dp"
+
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="12dp"
+
+        app:cardBackgroundColor="#0DFFFFFF"
+
+        app:cardCornerRadius="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <View
+
+            android:layout_width="match_parent"
+
+            android:layout_height="123dp"
+
+            android:background="@drawable/stroke_glass_rounded" />
+
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical"
+
+            android:paddingStart="24dp"
+
+            android:paddingTop="20dp"
+
+            android:paddingEnd="24dp"
+
+            android:paddingBottom="20dp">
+
+
+            <LinearLayout
+
+                android:id="@+id/morseRow"
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="center_horizontal"
+
+                android:layout_marginBottom="10dp"
+
+                android:gravity="center_vertical"
+
+                android:orientation="horizontal">
+
+
+                <View
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/morse_dot" />
+
+                <View
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/morse_dot" />
+
+                <View
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/morse_dot" />
+
+
+                <View
+                    android:layout_width="18dp"
+                    android:layout_height="6dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/morse_dash" />
+
+                <View
+                    android:layout_width="18dp"
+                    android:layout_height="6dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/morse_dash" />
+
+                <View
+                    android:layout_width="18dp"
+                    android:layout_height="6dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/morse_dash" />
+
+
+                <View
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/morse_dot" />
+
+                <View
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/morse_dot" />
+
+                <View
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:background="@drawable/morse_dot" />
+
+
+            </LinearLayout>
+
+
+            <FrameLayout
+
+                android:id="@+id/sosButton"
+
+                android:layout_width="match_parent"
+
+                android:layout_height="72dp"
+
+                android:background="@drawable/bg_sos_off"
+
+                android:clickable="true"
+
+                android:focusable="true"
+
+                android:hapticFeedbackEnabled="true">
+
+
+                <LinearLayout
+
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_gravity="center"
+
+                    android:gravity="center"
+
+                    android:orientation="vertical">
+
+
+                    <TextView
+
+                        android:id="@+id/sosLabel"
+
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+
+                        android:fontFamily="@font/roboto_flex"
+
+                        android:letterSpacing="0.3"
+
+                        android:text="@string/sos"
+
+                        android:textColor="#80FFFFFF"
+
+                        android:textSize="22sp"
+
+                        android:textStyle="bold" />
+
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+
+                        android:fontFamily="@font/roboto_flex"
+
+                        android:letterSpacing="0.15"
+
+                        android:text="@string/signal"
+
+                        android:textColor="#80FFFFFF"
+
+                        android:textSize="11sp" />
+
+                    <View
+
+                        android:id="@+id/ambientGradient"
+
+                        android:layout_width="match_parent"
+
+                        android:layout_height="match_parent"
+
+                        android:alpha="0.18"
+
+                        android:background="@drawable/bg_ambient_gradient"
+
+                        />
+
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/sosPulseOverlay"
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="match_parent"
+
+                    android:alpha="0"
+
+                    android:background="@drawable/bg_sos_pulse_overlay" />
+
+
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
