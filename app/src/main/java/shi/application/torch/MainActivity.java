@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     View thumb;
 
     Boolean isFlash = true;
-
+    Boolean isSOSRunning=false;
     Boolean isFlashOn = false;
     Boolean isScreenBright = false;
 
@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         btnFront.setOnClickListener(v->{
             float place=thumb.getWidth();
             thumb.setX(place);
+            isFlash=false;
             TextViewCompat.setCompoundDrawableTintList(btnBack, ColorStateList.valueOf(colorOff));
             TextViewCompat.setCompoundDrawableTintList(btnFront, ColorStateList.valueOf(colorOn));
 
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v->{
             float place=0f;
             thumb.setX(place);
+            isFlash=true;
             TextViewCompat.setCompoundDrawableTintList(btnBack, ColorStateList.valueOf(colorOn));
 
             TextViewCompat.setCompoundDrawableTintList(btnFront, ColorStateList.valueOf(colorOff));
@@ -137,24 +139,25 @@ public class MainActivity extends AppCompatActivity {
 
         on_off_button.setOnClickListener(v -> {
             try {
-                if (isFlash) {
-                    isFlashOn = !isFlashOn;
+                if(!isSOSRunning){
+                    if (isFlash) {
+                        isFlashOn = !isFlashOn;
 
-                    cameraManager.setTorchMode(finalCameraId, isFlashOn);
+                        cameraManager.setTorchMode(finalCameraId, isFlashOn);
 
-                    on_off_button.setBackground((isFlashOn ? on_bg : off_bg));
-                }else{
-                    isScreenBright =!isScreenBright;
-                    if(isScreenBright){
-                        FrontScreenSettings.enableScreenFlash(MainActivity.this);
-                        on_off_button.setBackground(on_bg);
+                        on_off_button.setBackground((isFlashOn ? on_bg : off_bg));
                     }else{
-                        FrontScreenSettings.disableScreenFlash(MainActivity.this);
-                        on_off_button.setBackground(off_bg);
+                        isScreenBright =!isScreenBright;
+                        if(isScreenBright){
+                            FrontScreenSettings.enableScreenFlash(MainActivity.this);
+                            on_off_button.setBackground(on_bg);
+                        }else{
+                            FrontScreenSettings.disableScreenFlash(MainActivity.this);
+                            on_off_button.setBackground(off_bg);
+                        }
+
                     }
-
                 }
-
 
             } catch (Exception e) {
                 Log.d("ERRORING", "error in on_off_button");
@@ -166,7 +169,11 @@ public class MainActivity extends AppCompatActivity {
                 if(isFlashOn){
                     Toast.makeText(this, "Eteignez d'abord le Flash", Toast.LENGTH_SHORT).show();
                 }else{
-                    morseManager.startSOS();
+                    isSOSRunning=true;
+                    morseManager.startSOS(()->{
+                        isSOSRunning=false;
+                    });
+
                 }
             }else{
                 Toast.makeText(this, "Seulement possible via Flash", Toast.LENGTH_SHORT).show();

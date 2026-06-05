@@ -4,6 +4,7 @@ import android.content.Context;
 import android.hardware.camera2.CameraManager;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.os.Looper;
 import android.util.Log;
 
 public class MorseFlashLightManager {
@@ -22,23 +23,33 @@ public class MorseFlashLightManager {
         }
     }
 
-    public synchronized void startSOS() {
+    // Pass a callback runnable into the method
+    public synchronized void startSOS(Runnable onSequenceComplete) {
         if (cameraId == null) return;
+
         HandlerThread handlerThread = new HandlerThread("FlashlightThread");
         handlerThread.start();
         Handler backgroundHandler = new Handler(handlerThread.getLooper());
+
         backgroundHandler.post(() -> {
             try {
-                    flash(1); flash(1); flash(1);
-                    Thread.sleep(UNIT_TIME * 2);
-                    flash(3); flash(3); flash(3);
-                    Thread.sleep(UNIT_TIME * 2);
-                    flash(1); flash(1); flash(1);
-                    Thread.sleep(UNIT_TIME * 7);
+                flash(1); flash(1); flash(1);
+                Thread.sleep(UNIT_TIME * 2);
+                flash(3); flash(3); flash(3);
+                Thread.sleep(UNIT_TIME * 2);
+                flash(1); flash(1); flash(1);
+                Thread.sleep(UNIT_TIME * 7);
             } catch (InterruptedException e) {
                 // Thread stopped intentionally
             } finally {
                 turnOffFlashlight();
+
+                if (onSequenceComplete != null) {
+                    new Handler(Looper.getMainLooper()).post(onSequenceComplete);
+                }
+
+                // Clean up the thread loop safely
+                handlerThread.quitSafely();
             }
         });
     }
