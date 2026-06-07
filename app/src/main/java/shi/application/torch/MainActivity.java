@@ -1,6 +1,5 @@
 package shi.application.torch;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -33,10 +32,10 @@ public class MainActivity extends AppCompatActivity {
 
     View thumb;
 
-    Boolean isFlash = true;
-    Boolean isSOSRunning=false;
-    Boolean isFlashOn = false;
-    Boolean isScreenBright = false;
+    boolean isFlash = true;
+    boolean isSOSRunning=false;
+    boolean isFlashOn = false;
+    boolean isScreenBright = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
 
             float dX;
 
-            @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(View view, MotionEvent event) {
 
@@ -115,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
 
                     case MotionEvent.ACTION_UP:
-
+                        view.performClick();
                         if (!isFlashOn && !isScreenBright) {
                             float midpoint = (minX + maxX) / 2f;
                             float targetX = (view.getX() < midpoint) ? minX : maxX;
@@ -160,23 +158,21 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             } catch (Exception e) {
-                Log.d("ERRORING", "error in on_off_button");
+                Log.e("Erreur","Description:",e);
             }
         });
 
         sos_button.setOnClickListener(v->{
             if(isFlash){
                 if(isFlashOn){
-                    Toast.makeText(this, "Eteignez d'abord le Flash", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.eteindre_flash), Toast.LENGTH_SHORT).show();
                 }else{
                     isSOSRunning=true;
-                    morseManager.startSOS(()->{
-                        isSOSRunning=false;
-                    });
+                    morseManager.startSOS(()-> isSOSRunning=false);
 
                 }
             }else{
-                Toast.makeText(this, "Seulement possible via Flash", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.seulement_flash), Toast.LENGTH_SHORT).show();
             }
         });
 

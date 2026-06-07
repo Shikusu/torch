@@ -5,4 +5,6 @@
     <string name="signal">SIGNAL</string>
     <string name="sos">SOS</string>
     <string name="primary_beam">Flash</string>
+    <string name="eteindre_flash">Eteignez d\'abord le Flash</string>
+    <string name="seulement_flash">Seulement possible via Flash</string>
 </resources>

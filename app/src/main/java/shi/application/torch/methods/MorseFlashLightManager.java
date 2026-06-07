@@ -19,7 +19,7 @@ public class MorseFlashLightManager {
         try {
             cameraId = cameraManager.getCameraIdList()[0];
         } catch (Exception e) {
-            Log.d("ERRORING", "error in MorseManager");
+            Log.e("Error", "Description",e);
         }
     }
 
@@ -54,7 +54,6 @@ public class MorseFlashLightManager {
         });
     }
 
-
     private void flash(int units) throws InterruptedException {
         setFlashlight(true);
         Thread.sleep((long) UNIT_TIME * units);
@@ -66,7 +65,7 @@ public class MorseFlashLightManager {
         try {
             cameraManager.setTorchMode(cameraId, enabled);
         } catch (Exception e) {
-            Log.d("ERRORING", "error in setFlashlight");
+            Log.e("Error", "Description",e);
         }
     }
 
